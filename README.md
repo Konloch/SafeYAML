@@ -30,6 +30,7 @@ Add it as a maven dependency or just [download the latest release](https://githu
 ```
 
 ## Disclaimer
++ The namespace `org.yaml.snakeyaml` has been maintained along with all of the existing names, none of the API has been changed to maintain 1:1 compatability between libraries.
 + All tests have been moved to the [test branch](https://github.com/Konloch/SafeYAML/tree/tests)
 + This library has been built and is released for Java-8, if you require Java-7 please let me know and I can look into that.
 + Slightly different versioning numbers, we use `1.34.0` and upstream uses `1.34`
