@@ -30,8 +30,6 @@ package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
  * multiple threads.
  *
  * <p>
- * Several popular escapers are defined as constants in the class {@link CharEscapers}. To create
- * your own escapers, use {@link CharEscaperBuilder}, or extend {@link CharEscaper} or
  * {@code UnicodeEscaper}.
  */
 public interface Escaper
@@ -47,7 +45,6 @@ public interface Escaper
 	 * <li>{@link UnicodeEscaper} handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
 	 * correctly, including surrogate character pairs. If the input is badly formed the escaper should
 	 * throw {@link IllegalArgumentException}.
-	 * <li>{@link CharEscaper} handles Java characters independently and does not verify the input for
 	 * well formed characters. A CharEscaper should not be used in situations where input is not
 	 * guaranteed to be restricted to the Basic Multilingual Plane (BMP).
 	 * </ul>
@@ -71,7 +68,6 @@ public interface Escaper
 	 * <li>{@link UnicodeEscaper} handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
 	 * correctly, including surrogate character pairs. If the input is badly formed the escaper should
 	 * throw {@link IllegalArgumentException}.
-	 * <li>{@link CharEscaper} handles Java characters independently and does not verify the input for
 	 * well formed characters. A CharEscaper should not be used in situations where input is not
 	 * guaranteed to be restricted to the Basic Multilingual Plane (BMP).
 	 * </ul>
