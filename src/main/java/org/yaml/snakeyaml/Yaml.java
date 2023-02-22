@@ -16,7 +16,7 @@ package org.yaml.snakeyaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
+import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -59,7 +59,7 @@ public class Yaml
 	 */
 	public Yaml()
 	{
-		this(new SafeConstructor(new LoaderOptions()), new Representer(new DumperOptions()));
+		this(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()));
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class Yaml
 	 */
 	public Yaml(DumperOptions dumperOptions)
 	{
-		this(new SafeConstructor(new LoaderOptions()), new Representer(dumperOptions), dumperOptions);
+		this(new Constructor(new LoaderOptions()), new Representer(dumperOptions), dumperOptions);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class Yaml
 	 */
 	public Yaml(LoaderOptions loadingConfig)
 	{
-		this(new SafeConstructor(loadingConfig), new Representer(new DumperOptions()), new DumperOptions(), loadingConfig);
+		this(new Constructor(loadingConfig), new Representer(new DumperOptions()), new DumperOptions(), loadingConfig);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class Yaml
 	 */
 	public Yaml(Representer representer)
 	{
-		this(new SafeConstructor(new LoaderOptions()), representer);
+		this(new Constructor(new LoaderOptions()), representer);
 	}
 	
 	/**
@@ -131,20 +131,19 @@ public class Yaml
 	 */
 	public Yaml(Representer representer, DumperOptions dumperOptions)
 	{
-		this(new SafeConstructor(new LoaderOptions()), representer, dumperOptions);
+		this(new Constructor(new LoaderOptions()), representer, dumperOptions);
 	}
 	
 	/**
 	 * Create Yaml instance. It is safe to create a few instances and use them in different Threads.
 	 *
-	 * @param constructor BaseConstructor to construct incoming documents. Its LoaderOptions will be
-	 *        used everywhere
+	 * @param constructor BaseConstructor to construct incoming documents
 	 * @param representer Representer to emit outgoing objects
 	 * @param dumperOptions DumperOptions to configure outgoing objects
 	 */
 	public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions)
 	{
-		this(constructor, representer, dumperOptions, constructor.getLoadingConfig(), new Resolver());
+		this(constructor, representer, dumperOptions, new LoaderOptions(), new Resolver());
 	}
 	
 	/**
@@ -184,26 +183,6 @@ public class Yaml
 	 */
 	public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions, LoaderOptions loadingConfig, Resolver resolver)
 	{
-		if (constructor == null)
-		{
-			throw new NullPointerException("Constructor must be provided");
-		}
-		if (representer == null)
-		{
-			throw new NullPointerException("Representer must be provided");
-		}
-		if (dumperOptions == null)
-		{
-			throw new NullPointerException("DumperOptions must be provided");
-		}
-		if (loadingConfig == null)
-		{
-			throw new NullPointerException("LoaderOptions must be provided");
-		}
-		if (resolver == null)
-		{
-			throw new NullPointerException("Resolver must be provided");
-		}
 		if (!constructor.isExplicitPropertyUtils())
 		{
 			constructor.setPropertyUtils(representer.getPropertyUtils());
@@ -491,7 +470,7 @@ public class Yaml
 	 * @return parsed object
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T loadAs(Reader io, Class<? super T> type)
+	public <T> T loadAs(Reader io, Class<T> type)
 	{
 		return (T) loadFromReader(new StreamReader(io), type);
 	}
@@ -506,7 +485,7 @@ public class Yaml
 	 * @return parsed object
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T loadAs(String yaml, Class<? super T> type)
+	public <T> T loadAs(String yaml, Class<T> type)
 	{
 		return (T) loadFromReader(new StreamReader(yaml), type);
 	}
@@ -520,7 +499,7 @@ public class Yaml
 	 * @return parsed object
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T loadAs(InputStream input, Class<? super T> type)
+	public <T> T loadAs(InputStream input, Class<T> type)
 	{
 		return (T) loadFromReader(new StreamReader(new UnicodeReader(input)), type);
 	}
@@ -803,15 +782,5 @@ public class Yaml
 	{
 		constructor.addTypeDescription(td);
 		representer.addTypeDescription(td);
-	}
-	
-	/**
-	 * Alert that this is a library
-	 *
-	 * @param args program launch arguments
-	 */
-	public static void main(String[] args)
-	{
-		throw new RuntimeException("Incorrect usage - for information on how to use this correctly visit https://konloch.com/SafeYAML/");
 	}
 }

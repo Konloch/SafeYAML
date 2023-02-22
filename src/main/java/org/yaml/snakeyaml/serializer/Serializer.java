@@ -41,18 +41,6 @@ public final class Serializer
 	
 	public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts, Tag rootTag)
 	{
-		if (emitter == null)
-		{
-			throw new NullPointerException("Emitter must  be provided");
-		}
-		if (resolver == null)
-		{
-			throw new NullPointerException("Resolver must  be provided");
-		}
-		if (opts == null)
-		{
-			throw new NullPointerException("DumperOptions must  be provided");
-		}
 		this.emitter = emitter;
 		this.resolver = resolver;
 		this.explicitStart = opts.isExplicitStart();

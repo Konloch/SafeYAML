@@ -38,28 +38,6 @@ public final class Tag
 	public static final Tag STR = new Tag(PREFIX + "str");
 	public static final Tag SEQ = new Tag(PREFIX + "seq");
 	public static final Tag MAP = new Tag(PREFIX + "map");
-	
-	// https://yaml.org/type/index.html
-	public static final Set<Tag> standardTags = new HashSet<>(15);
-	
-	static
-	{
-		standardTags.add(YAML);
-		standardTags.add(MERGE);
-		standardTags.add(SET);
-		standardTags.add(PAIRS);
-		standardTags.add(OMAP);
-		standardTags.add(BINARY);
-		standardTags.add(INT);
-		standardTags.add(FLOAT);
-		standardTags.add(TIMESTAMP);
-		standardTags.add(BOOL);
-		standardTags.add(NULL);
-		standardTags.add(STR);
-		standardTags.add(SEQ);
-		standardTags.add(MAP);
-	}
-	
 	// For use to indicate a DUMMY node that contains comments, when there is no other (empty
 	// document)
 	public static final Tag COMMENT = new Tag(PREFIX + "comment");
@@ -144,7 +122,7 @@ public final class Tag
 	
 	public String getClassName()
 	{
-		if (secondary)
+		if (!value.startsWith(Tag.PREFIX))
 		{
 			throw new YAMLException("Invalid tag: " + value);
 		}
@@ -177,7 +155,7 @@ public final class Tag
 	}
 	
 	/**
-	 * Java has more than 1 class compatible with a language-independent tag (!!int, !!float,
+	 * Java has more then 1 class compatible with a language-independent tag (!!int, !!float,
 	 * !!timestamp etc)
 	 *
 	 * @param clazz - Class to check compatibility
@@ -200,20 +178,11 @@ public final class Tag
 	 * Check whether this tag matches the global tag for the Class
 	 *
 	 * @param clazz - Class to check
-	 * @return true when this tag can be used as a global tag for the Class during serialisation
+	 * @return true when the this tag can be used as a global tag for the Class
 	 */
 	public boolean matches(Class<? extends Object> clazz)
 	{
 		return value.equals(Tag.PREFIX + clazz.getName());
 	}
 	
-	/**
-	 * Check if the that is global and not standard to provide it to TagInspector for verification.
-	 *
-	 * @return true when the tag must be verified to avoid remote code invocation
-	 */
-	public boolean isCustomGlobal()
-	{
-		return !secondary && !standardTags.contains(this);
-	}
 }

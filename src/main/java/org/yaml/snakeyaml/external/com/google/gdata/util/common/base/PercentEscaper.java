@@ -24,7 +24,9 @@ package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
  * <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>.
  *
  * <p>
- * In most cases this class should not need to be used directly.
+ * In most cases this class should not need to be used directly. If you have no special requirements
+ * for escaping your URIs, you should use either {@link CharEscapers#uriEscaper()} or
+ * {@link CharEscapers#uriEscaper(boolean)}.
  *
  * <p>
  * When encoding a String, the following rules apply:
