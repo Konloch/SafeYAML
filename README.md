@@ -7,13 +7,23 @@ You probably don't need this dependency if you're not familiar with the issue, f
 
 This library is unlikely to get updated beyond importing changes from upstream, so if you have an idea (not security related) please just forward it upstream.
 
-## How To Add As Library
+## How To Add As Library - SnakeYAML 1.33 with the safe changes made
 Add it as a maven dependency or just [download the latest release](https://github.com/Konloch/SafeYAML/releases).
 ```xml
 <dependency>
   <groupId>com.konloch</groupId>
   <artifactId>safeyaml</artifactId>
   <version>1.34.1</version>
+</dependency>
+```
+
+## How To Add As Library - SnakeYAML 1.34/2.0-INDEV with the safe changes made
+Add it as a maven dependency or just [download the latest release](https://github.com/Konloch/SafeYAML/releases).
+```xml
+<dependency>
+  <groupId>com.konloch</groupId>
+  <artifactId>safeyaml</artifactId>
+  <version>1.34.0</version>
 </dependency>
 ```
 
