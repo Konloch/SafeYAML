@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -59,7 +60,7 @@ public class Yaml
 	 */
 	public Yaml()
 	{
-		this(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()));
+		this(new SafeConstructor(new LoaderOptions()), new Representer(new DumperOptions()));
 	}
 	
 	/**
@@ -69,7 +70,7 @@ public class Yaml
 	 */
 	public Yaml(DumperOptions dumperOptions)
 	{
-		this(new Constructor(new LoaderOptions()), new Representer(dumperOptions), dumperOptions);
+		this(new SafeConstructor(new LoaderOptions()), new Representer(dumperOptions), dumperOptions);
 	}
 	
 	/**
@@ -79,7 +80,7 @@ public class Yaml
 	 */
 	public Yaml(LoaderOptions loadingConfig)
 	{
-		this(new Constructor(loadingConfig), new Representer(new DumperOptions()), new DumperOptions(), loadingConfig);
+		this(new SafeConstructor(loadingConfig), new Representer(new DumperOptions()), new DumperOptions(), loadingConfig);
 	}
 	
 	/**
@@ -89,7 +90,7 @@ public class Yaml
 	 */
 	public Yaml(Representer representer)
 	{
-		this(new Constructor(new LoaderOptions()), representer);
+		this(new SafeConstructor(new LoaderOptions()), representer);
 	}
 	
 	/**
@@ -131,7 +132,7 @@ public class Yaml
 	 */
 	public Yaml(Representer representer, DumperOptions dumperOptions)
 	{
-		this(new Constructor(new LoaderOptions()), representer, dumperOptions);
+		this(new SafeConstructor(new LoaderOptions()), representer, dumperOptions);
 	}
 	
 	/**
