@@ -1,5 +1,5 @@
 # SafeYAML
-Drop in replacement for Snake YAML 1.33, this is a fork of the latest changes. The default constructors have been changed to no longer allow remote execution during deserialization.
+Drop in replacement for Snake YAML 1.34/2.0, this is a fork of the latest changes. The default constructors have been changed to no longer allow remote execution during deserialization.
 
 For more information read - https://bitbucket.org/snakeyaml/snakeyaml/issues/561/cve-2022-1471-vulnerability-in
 
@@ -13,7 +13,7 @@ Add it as a maven dependency or just [download the latest release](https://githu
 <dependency>
   <groupId>com.konloch</groupId>
   <artifactId>SafeYAML</artifactId>
-  <version>1.34.1</version>
+  <version>1.34.0</version>
 </dependency>
 ```
 
