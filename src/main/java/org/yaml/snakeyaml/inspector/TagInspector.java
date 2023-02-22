@@ -11,23 +11,24 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.emitter;
+package org.yaml.snakeyaml.inspector;
 
-import org.yaml.snakeyaml.events.Event;
-
-import java.io.IOException;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Define a way to serialize an event to output stream
+ * Check if the global tags are allowed (the local tags are always allowed). It should control the
+ * classes to create to prevent possible remote code invocation when the data comes from untrusted
+ * source. The standard tags are always allowed (https://yaml.org/type/index.html)
  */
-public interface Emitable
+public interface TagInspector
 {
 	
 	/**
-	 * Serialise event to bytes
+	 * Check
 	 *
-	 * @param event - the source
-	 * @throws IOException if bytes bite
+	 * @param tag - the global tag to check
+	 * @return true when the custom global tag is allowed to create a custom Java instance
 	 */
-	void emit(Event event) throws IOException;
+	boolean isGlobalTagAllowed(Tag tag);
+	
 }

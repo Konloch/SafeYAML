@@ -29,7 +29,8 @@ package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
  * An {@code Escaper} instance is required to be stateless, and safe when used concurrently by
  * multiple threads.
  *
-* {@code UnicodeEscaper}.
+ * <p>
+ * {@code UnicodeEscaper}.
  */
 public interface Escaper
 {
@@ -44,6 +45,8 @@ public interface Escaper
 	 * <li>{@link UnicodeEscaper} handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
 	 * correctly, including surrogate character pairs. If the input is badly formed the escaper should
 	 * throw {@link IllegalArgumentException}.
+	 * well formed characters. A CharEscaper should not be used in situations where input is not
+	 * guaranteed to be restricted to the Basic Multilingual Plane (BMP).
 	 * </ul>
 	 *
 	 * @param string the literal string to be escaped
@@ -65,6 +68,8 @@ public interface Escaper
 	 * <li>{@link UnicodeEscaper} handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
 	 * correctly, including surrogate character pairs. If the input is badly formed the escaper should
 	 * throw {@link IllegalArgumentException}.
+	 * well formed characters. A CharEscaper should not be used in situations where input is not
+	 * guaranteed to be restricted to the Basic Multilingual Plane (BMP).
 	 * </ul>
 	 *
 	 * @param out the underlying {@code Appendable} to append escaped output to

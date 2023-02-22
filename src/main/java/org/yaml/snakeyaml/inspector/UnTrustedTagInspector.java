@@ -11,30 +11,26 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.events;
+package org.yaml.snakeyaml.inspector;
 
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Marks the beginning of a sequence node.
- * <p>
- * This event is followed by the elements contained in the sequence, and a {@link SequenceEndEvent}.
- * </p>
- *
- * @see SequenceEndEvent
+ * TagInspector which does not allow to create any custom instance. It should not be used when the
+ * data comes from untrusted source to prevent possible remote code invocation.
  */
-public final class SequenceStartEvent extends CollectionStartEvent
+public final class UnTrustedTagInspector implements TagInspector
 {
 	
-	public SequenceStartEvent(String anchor, String tag, boolean implicit, Mark startMark, Mark endMark, DumperOptions.FlowStyle flowStyle)
-	{
-		super(anchor, tag, implicit, startMark, endMark, flowStyle);
-	}
-	
+	/**
+	 * Allow none
+	 *
+	 * @param tag - the global tag to allow
+	 * @return always return true
+	 */
 	@Override
-	public Event.ID getEventId()
+	public boolean isGlobalTagAllowed(Tag tag)
 	{
-		return ID.SequenceStart;
+		return false;
 	}
 }

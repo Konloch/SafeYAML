@@ -53,19 +53,6 @@ public class Composer
 	private final int nestingDepthLimit;
 	
 	/**
-	 * Create with defaults
-	 *
-	 * @param parser - the parser
-	 * @param resolver - the resolver
-	 * @deprecated use options
-	 */
-	@Deprecated
-	public Composer(Parser parser, Resolver resolver)
-	{
-		this(parser, resolver, new LoaderOptions());
-	}
-	
-	/**
 	 * Create
 	 *
 	 * @param parser - the parser
@@ -74,6 +61,18 @@ public class Composer
 	 */
 	public Composer(Parser parser, Resolver resolver, LoaderOptions loadingConfig)
 	{
+		if (parser == null)
+		{
+			throw new NullPointerException("Parser must be provided");
+		}
+		if (resolver == null)
+		{
+			throw new NullPointerException("Resolver must be provided");
+		}
+		if (loadingConfig == null)
+		{
+			throw new NullPointerException("LoaderOptions must be provided");
+		}
 		this.parser = parser;
 		this.resolver = resolver;
 		this.anchors = new HashMap<String, Node>();
@@ -235,6 +234,10 @@ public class Composer
 		else
 		{
 			nodeTag = new Tag(tag);
+			if (nodeTag.isCustomGlobal() && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag))
+			{
+				throw new ComposerException(null, null, "Global tag is not allowed: " + tag, ev.getStartMark());
+			}
 		}
 		Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev.getEndMark(), ev.getScalarStyle());
 		if (anchor != null)
@@ -262,6 +265,10 @@ public class Composer
 		else
 		{
 			nodeTag = new Tag(tag);
+			if (nodeTag.isCustomGlobal() && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag))
+			{
+				throw new ComposerException(null, null, "Global tag is not allowed: " + tag, startEvent.getStartMark());
+			}
 		}
 		final ArrayList<Node> children = new ArrayList<Node>();
 		SequenceNode node = new SequenceNode(nodeTag, resolved, children, startEvent.getStartMark(), null, startEvent.getFlowStyle());
@@ -311,6 +318,10 @@ public class Composer
 		else
 		{
 			nodeTag = new Tag(tag);
+			if (nodeTag.isCustomGlobal() && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag))
+			{
+				throw new ComposerException(null, null, "Global tag is not allowed: " + tag, startEvent.getStartMark());
+			}
 		}
 		
 		final List<NodeTuple> children = new ArrayList<NodeTuple>();

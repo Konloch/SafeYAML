@@ -16,7 +16,6 @@ package org.yaml.snakeyaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.emitter.Emitter;
@@ -138,13 +137,14 @@ public class Yaml
 	/**
 	 * Create Yaml instance. It is safe to create a few instances and use them in different Threads.
 	 *
-	 * @param constructor BaseConstructor to construct incoming documents
+	 * @param constructor BaseConstructor to construct incoming documents. Its LoaderOptions will be
+	 *        used everywhere
 	 * @param representer Representer to emit outgoing objects
 	 * @param dumperOptions DumperOptions to configure outgoing objects
 	 */
 	public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions)
 	{
-		this(constructor, representer, dumperOptions, new LoaderOptions(), new Resolver());
+		this(constructor, representer, dumperOptions, constructor.getLoadingConfig(), new Resolver());
 	}
 	
 	/**
@@ -184,6 +184,26 @@ public class Yaml
 	 */
 	public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions, LoaderOptions loadingConfig, Resolver resolver)
 	{
+		if (constructor == null)
+		{
+			throw new NullPointerException("Constructor must be provided");
+		}
+		if (representer == null)
+		{
+			throw new NullPointerException("Representer must be provided");
+		}
+		if (dumperOptions == null)
+		{
+			throw new NullPointerException("DumperOptions must be provided");
+		}
+		if (loadingConfig == null)
+		{
+			throw new NullPointerException("LoaderOptions must be provided");
+		}
+		if (resolver == null)
+		{
+			throw new NullPointerException("Resolver must be provided");
+		}
 		if (!constructor.isExplicitPropertyUtils())
 		{
 			constructor.setPropertyUtils(representer.getPropertyUtils());
@@ -471,7 +491,7 @@ public class Yaml
 	 * @return parsed object
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T loadAs(Reader io, Class<T> type)
+	public <T> T loadAs(Reader io, Class<? super T> type)
 	{
 		return (T) loadFromReader(new StreamReader(io), type);
 	}
@@ -486,7 +506,7 @@ public class Yaml
 	 * @return parsed object
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T loadAs(String yaml, Class<T> type)
+	public <T> T loadAs(String yaml, Class<? super T> type)
 	{
 		return (T) loadFromReader(new StreamReader(yaml), type);
 	}
@@ -500,7 +520,7 @@ public class Yaml
 	 * @return parsed object
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T loadAs(InputStream input, Class<T> type)
+	public <T> T loadAs(InputStream input, Class<? super T> type)
 	{
 		return (T) loadFromReader(new StreamReader(new UnicodeReader(input)), type);
 	}

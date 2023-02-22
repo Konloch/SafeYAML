@@ -37,19 +37,20 @@ public abstract class BaseConstructor
 	protected static final Object NOT_INSTANTIATED_OBJECT = new Object();
 	
 	/**
-	 * It maps the node kind to the the Construct implementation. When the runtime class is known then
-	 * the implicit tag is ignored.
+	 * It maps the node kind to the Construct implementation. When the runtime class is known then the
+	 * implicit tag is ignored.
 	 */
 	protected final Map<NodeId, Construct> yamlClassConstructors = new EnumMap<NodeId, Construct>(NodeId.class);
 	/**
 	 * It maps the (explicit or implicit) tag to the Construct implementation. It is used: 1) explicit
 	 * tag - if present. 2) implicit tag - when the runtime class of the instance is unknown (the node
-	 * has the Object.class)
+	 * has the Object.class) 3) when nothing else is found the Construct for the key 'null' is chosen
+	 * (which is ConstructYamlObject)
 	 */
 	protected final Map<Tag, Construct> yamlConstructors = new HashMap<Tag, Construct>();
 	/**
 	 * It maps the (explicit or implicit) tag to the Construct implementation. It is used when no
-	 * exact match found.
+	 * exact match found. The key in the Map is checked if it starts the class name
 	 */
 	protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 	
@@ -90,21 +91,14 @@ public abstract class BaseConstructor
 	/**
 	 * Create
 	 *
-	 * @deprecated use the options
-	 */
-	@Deprecated
-	public BaseConstructor()
-	{
-		this(new LoaderOptions());
-	}
-	
-	/**
-	 * Create
-	 *
 	 * @param loadingConfig - options
 	 */
 	public BaseConstructor(LoaderOptions loadingConfig)
 	{
+		if (loadingConfig == null)
+		{
+			throw new NullPointerException("LoaderOptions must be provided.");
+		}
 		constructedObjects = new HashMap<Node, Object>();
 		recursiveObjects = new HashSet<Node>();
 		maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
@@ -288,7 +282,7 @@ public abstract class BaseConstructor
 	
 	/**
 	 * Get the constructor to construct the Node. For implicit tags if the runtime class is known a
-	 * dedicated Construct implementation is used. Otherwise the constructor is chosen by the tag.
+	 * dedicated Construct implementation is used. Otherwise, the constructor is chosen by the tag.
 	 *
 	 * @param node {@link Node} to construct an instance from
 	 * @return {@link Construct} implementation for the specified node
@@ -301,12 +295,13 @@ public abstract class BaseConstructor
 		}
 		else
 		{
-			Construct constructor = yamlConstructors.get(node.getTag());
+			Tag tag = node.getTag();
+			Construct constructor = yamlConstructors.get(tag);
 			if (constructor == null)
 			{
 				for (String prefix : yamlMultiConstructors.keySet())
 				{
-					if (node.getTag().startsWith(prefix))
+					if (tag.startsWith(prefix))
 					{
 						return yamlMultiConstructors.get(prefix);
 					}
@@ -822,5 +817,10 @@ public abstract class BaseConstructor
 	public void setEnumCaseSensitive(boolean enumCaseSensitive)
 	{
 		this.enumCaseSensitive = enumCaseSensitive;
+	}
+	
+	public LoaderOptions getLoadingConfig()
+	{
+		return loadingConfig;
 	}
 }

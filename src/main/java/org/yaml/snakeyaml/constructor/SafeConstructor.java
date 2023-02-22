@@ -32,17 +32,13 @@ public class SafeConstructor extends BaseConstructor
 	public static final ConstructUndefined undefinedConstructor = new ConstructUndefined();
 	
 	/**
-	 * @deprecated use options
+	 * Create an instance
+	 *
+	 * @param loaderOptions - the configuration options
 	 */
-	@Deprecated
-	public SafeConstructor()
+	public SafeConstructor(LoaderOptions loaderOptions)
 	{
-		this(new LoaderOptions());
-	}
-	
-	public SafeConstructor(LoaderOptions loadingConfig)
-	{
-		super(loadingConfig);
+		super(loaderOptions);
 		this.yamlConstructors.put(Tag.NULL, new ConstructYamlNull());
 		this.yamlConstructors.put(Tag.BOOL, new ConstructYamlBool());
 		this.yamlConstructors.put(Tag.INT, new ConstructYamlInt());

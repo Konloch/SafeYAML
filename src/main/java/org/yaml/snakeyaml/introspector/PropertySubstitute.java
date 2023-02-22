@@ -14,6 +14,8 @@
 package org.yaml.snakeyaml.introspector;
 
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.internal.Logger;
+import org.yaml.snakeyaml.internal.Logger.Level;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
@@ -25,8 +27,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 // TODO: decide priorities for get/set Read/Field/Delegate Write/Field/Delegate - is FIELD on the
 // correct place ?
@@ -129,7 +129,7 @@ public class PropertySubstitute extends Property
 		}
 		else
 		{
-			log.warning("No setter/delegate for '" + getName() + "' on object " + object);
+			log.warn("No setter/delegate for '" + getName() + "' on object " + object);
 		}
 		// TODO: maybe throw YAMLException here
 	}
@@ -217,9 +217,9 @@ public class PropertySubstitute extends Property
 					}
 				}
 			}
-			if (field == null && log.isLoggable(Level.FINE))
+			if (field == null && log.isLoggable(Level.WARNING))
 			{
-				log.fine(String.format("Failed to find field for %s.%s", targetType.getName(), getName()));
+				log.warn(String.format("Failed to find field for %s.%s", targetType.getName(), getName()));
 			}
 			
 			// Retrieve needed info
@@ -269,9 +269,9 @@ public class PropertySubstitute extends Property
 				}
 			}
 		}
-		if (log.isLoggable(Level.FINE))
+		if (log.isLoggable(Level.WARNING))
 		{
-			log.fine(String.format("Failed to find [%s(%d args)] for %s.%s", name, params.length, targetType.getName(), getName()));
+			log.warn(String.format("Failed to find [%s(%d args)] for %s.%s", name, params.length, targetType.getName(), getName()));
 		}
 		return null;
 	}

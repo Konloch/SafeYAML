@@ -62,6 +62,10 @@ public class StreamReader
 	
 	public StreamReader(Reader reader)
 	{
+		if (reader == null)
+		{
+			throw new NullPointerException("Reader must be provided.");
+		}
 		this.name = "'reader'";
 		this.dataWindow = new int[0];
 		this.dataLength = 0;

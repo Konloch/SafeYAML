@@ -31,17 +31,6 @@ public class Constructor extends SafeConstructor
 {
 	
 	/**
-	 * Create
-	 *
-	 * @deprecated use options
-	 */
-	@Deprecated
-	public Constructor()
-	{
-		this(Object.class);
-	}
-	
-	/**
 	 * Create with options
 	 *
 	 * @param loadingConfig - config
@@ -49,16 +38,6 @@ public class Constructor extends SafeConstructor
 	public Constructor(LoaderOptions loadingConfig)
 	{
 		this(Object.class, loadingConfig);
-	}
-	
-	/**
-	 * Create Constructor for the specified class as the root.
-	 *
-	 * @param theRoot - the class (usually JavaBean) to be constructed
-	 */
-	public Constructor(Class<? extends Object> theRoot)
-	{
-		this(new TypeDescription(checkRoot(theRoot)));
 	}
 	
 	/**
@@ -91,18 +70,6 @@ public class Constructor extends SafeConstructor
 	 * Create
 	 *
 	 * @param theRoot - the root class to create
-	 * @deprecated use options
-	 */
-	@Deprecated
-	public Constructor(TypeDescription theRoot)
-	{
-		this(theRoot, null, new LoaderOptions());
-	}
-	
-	/**
-	 * Create
-	 *
-	 * @param theRoot - the root class to create
 	 * @param loadingConfig options
 	 */
 	public Constructor(TypeDescription theRoot, LoaderOptions loadingConfig)
@@ -124,7 +91,10 @@ public class Constructor extends SafeConstructor
 		{
 			throw new NullPointerException("Root type must be provided.");
 		}
+		// register a general Construct when the explicit one was not found
 		this.yamlConstructors.put(null, new ConstructYamlObject());
+		
+		// register the root tag to begin with its Construct
 		if (!Object.class.equals(theRoot.getType()))
 		{
 			rootTag = new Tag(theRoot.getType());
@@ -143,18 +113,6 @@ public class Constructor extends SafeConstructor
 	}
 	
 	/**
-	 * Create Constructor for a class which does not have to be in the classpath or for a definition
-	 * from a Spring ApplicationContext.
-	 *
-	 * @param theRoot fully qualified class name of the root class (usually JavaBean)
-	 * @throws ClassNotFoundException if it cannot be loaded by the classloader
-	 */
-	public Constructor(String theRoot) throws ClassNotFoundException
-	{
-		this(Class.forName(check(theRoot)));
-	}
-	
-	/**
 	 * Create
 	 *
 	 * @param theRoot - the main class to crate
@@ -166,7 +124,7 @@ public class Constructor extends SafeConstructor
 		this(Class.forName(check(theRoot)), loadingConfig);
 	}
 	
-	private static final String check(String s)
+	private static String check(String s)
 	{
 		if (s == null)
 		{
@@ -778,7 +736,7 @@ public class Constructor extends SafeConstructor
 			}
 		}
 		
-		private final Class<? extends Object> wrapIfPrimitive(Class<?> clazz)
+		private Class<? extends Object> wrapIfPrimitive(Class<?> clazz)
 		{
 			if (!clazz.isPrimitive())
 			{

@@ -24,6 +24,9 @@ package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
  * <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>.
  *
  * <p>
+ * In most cases this class should not need to be used directly.
+ *
+ * <p>
  * When encoding a String, the following rules apply:
  * <ul>
  * <li>The alphanumeric characters "a" through "z", "A" through "Z" and "0" through "9" remain the
