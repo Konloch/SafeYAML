@@ -221,6 +221,7 @@ public final class ScannerImpl implements Scanner
 	 * <code>CommentToken</code>.
 	 *
 	 * @param parseComments <code>true</code> to parse; <code>false</code> to ignore
+	 * @return this instance
 	 */
 	@Deprecated
 	public ScannerImpl setParseComments(boolean parseComments)

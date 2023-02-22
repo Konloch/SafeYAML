@@ -28,8 +28,6 @@ import java.io.IOException;
  * string {@code "Foo<Bar>"}.
  *
  * <p>
- *
- * <p>
  * As there are important reasons, including potential security issues, to handle Unicode correctly
  * if you are considering implementing a new escaper you should favor using UnicodeEscaper wherever
  * possible.

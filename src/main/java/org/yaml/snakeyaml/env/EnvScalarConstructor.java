@@ -44,7 +44,7 @@ public class EnvScalarConstructor extends Constructor
 	public static final Tag ENV_TAG = new Tag("!ENV");
 	
 	/**
-	 * name must be a word -> \w+ value can be any non-space -> \S+
+	 * name must be a word
 	 */
 	public static final Pattern ENV_FORMAT = Pattern.compile("^\\$\\{\\s*((?<name>\\w+)((?<separator>:?(-|\\?))(?<value>\\S+)?)?)\\s*\\}$");
 	

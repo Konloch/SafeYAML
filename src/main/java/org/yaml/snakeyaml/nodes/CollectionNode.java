@@ -47,6 +47,11 @@ public abstract class CollectionNode<T> extends Node
 	 *
 	 * @deprecated Since restored in v1.22. Use
 	 *             {@link CollectionNode#CollectionNode(Tag, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+	 *
+	 * @param tag - its tag
+	 * @param startMark - start
+	 * @param endMark - end
+	 * @param flowStyle - style
 	 */
 	@Deprecated
 	public CollectionNode(Tag tag, Mark startMark, Mark endMark, Boolean flowStyle)

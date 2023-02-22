@@ -29,9 +29,7 @@ package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
  * An {@code Escaper} instance is required to be stateless, and safe when used concurrently by
  * multiple threads.
  *
- * <p>
- *
- * {@code UnicodeEscaper}.
+* {@code UnicodeEscaper}.
  */
 public interface Escaper
 {
