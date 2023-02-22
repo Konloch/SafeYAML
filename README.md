@@ -12,7 +12,7 @@ Add it as a maven dependency or just [download the latest release](https://githu
 ```xml
 <dependency>
   <groupId>com.konloch</groupId>
-  <artifactId>SafeYAML</artifactId>
+  <artifactId>safeyaml</artifactId>
   <version>1.34.1</version>
 </dependency>
 ```
