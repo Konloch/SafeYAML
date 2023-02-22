@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Token
  *
- * @param <T>
+ * @param <T> type
  */
 public final class DirectiveToken<T> extends Token
 {
