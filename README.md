@@ -13,7 +13,7 @@ Add it as a maven dependency or just [download the latest release](https://githu
 <dependency>
   <groupId>com.konloch</groupId>
   <artifactId>safeyaml</artifactId>
-  <version>1.34.1</version>
+  <version>1.33.0</version>
 </dependency>
 ```
 
