@@ -28,10 +28,6 @@ import java.io.IOException;
  * string {@code "Foo<Bar>"}.
  *
  * <p>
- * <b>Note:</b> This class is similar to {@link CharEscaper} but with one very important difference.
- * A CharEscaper can only process Java <a href="http://en.wikipedia.org/wiki/UTF-16">UTF16</a>
- * characters in isolation and may not cope when it encounters surrogate pairs. This class
- * facilitates the correct escaping of all Unicode characters.
  *
  * <p>
  * As there are important reasons, including potential security issues, to handle Unicode correctly
@@ -43,8 +39,6 @@ import java.io.IOException;
  * multiple threads.
  *
  * <p>
- * Several popular escapers are defined as constants in the class {@link CharEscapers}. To create
- * your own escapers extend this class and implement the {@link #escape(int)} method.
  */
 public abstract class UnicodeEscaper implements Escaper
 {
@@ -133,7 +127,7 @@ public abstract class UnicodeEscaper implements Escaper
 	 * <b>Note:</b> When implementing an escaper it is a good idea to override this method for
 	 * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
 	 * directly. Doing this for {@link PercentEscaper} more than doubled the performance for unescaped
-	 * strings (as measured by {@link CharEscapersBenchmark}).
+	 * strings.
 	 *
 	 * @param string the literal string to be escaped
 	 * @return the escaped form of {@code string}
@@ -151,7 +145,7 @@ public abstract class UnicodeEscaper implements Escaper
 	 * Returns the escaped form of a given literal string, starting at the given index. This method is
 	 * called by the {@link #escape(String)} method when it discovers that escaping is required. It is
 	 * protected to allow subclasses to override the fastpath escaping function to inline their
-	 * escaping test. See {@link CharEscaperBuilder} for an example usage.
+	 * escaping test.
 	 *
 	 * <p>
 	 * This method is not reentrant and may only be invoked by the top level {@link #escape(String)}
